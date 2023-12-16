@@ -12,18 +12,17 @@ cd `pwd`/$dbname
 select db in createdb listdb dropdb connectdb
 do      
         case $db in
-        
         "createdb")
-        
+        	source ../create.sh
         ;;
         "listdb")
-        	ls -F `pwd` | grep /$
+        	source ../listdb.sh
         ;;
         "dropdb")
-        
+        	source ../dropDB.sh
         ;;
         "connectdb")
-        
+        	source ../connectdb.sh
         ;;
         *)
         	echo "Choose from 1 to 4"
