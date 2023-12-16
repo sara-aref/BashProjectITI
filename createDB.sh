@@ -11,6 +11,7 @@ if [ ! -d database/"$nameDB" ]; then
          [a-zA-Z_]*)
          nameDB=$(echo "databaseso/$nameDB" | tr ' ' '_')
          mkdir $nameDB
+         echo DB is added successfully
          ;;
          
          [0-9]*)
