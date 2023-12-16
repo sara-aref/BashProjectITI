@@ -4,10 +4,10 @@ select table in createtable droptable inserttable selectfromtable deletefromtabl
 	do
 		case $table in
 			"createtable")
-
+				source ../../createTable.sh
 			;;
 			"droptable")
-
+				source ../../droptable.sh
 			;;
 			"inserttable")
 				source ../../inserttable.sh
@@ -16,13 +16,13 @@ select table in createtable droptable inserttable selectfromtable deletefromtabl
 				source ../../selectfromtable.sh
 			;;
 			"deletefromtable")
-
+				source ../../deletefromtable.sh
 			;;
 			"updatetable")
-
+				source ../../updateTable.sh
 			;;
 			"listtable")
-
+				source ../../listTable.sh
 			;;
 			*)
 				echo "wrong! Choose from the list"
