@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 read -p "Enter name of table you want to delete from: " name
 
 if [ ! -f $name ]; then
@@ -41,8 +43,10 @@ do
                 		for field in $array #loop on 
                 		do
                    			if [ "$cols" == "$field" ]; then #check if the 
-                       		 		#################cut -d: -f $col_num $name | sed -i '3,$d'
-                        		break
+                       		 		cut -d: -f"$col_num" --complement "$name" > temp
+                       		 		mv temp "$name"
+                				echo "Column is deleted"
+                        			break
                     			fi
                     			((col_num++))
                 		done
