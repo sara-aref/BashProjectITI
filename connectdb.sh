@@ -10,5 +10,4 @@ else
 
 	source ../../table.sh
 fi
-cd ..
 
