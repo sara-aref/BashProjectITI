@@ -19,7 +19,7 @@ if [ ! -f "$nameTable" ]; then
          ;;
          esac
          
-elif [[ $nameDB = "" ]]; then
+elif [[ $nameTable = "" ]]; then
    echo You didnt enter any value
    
 else 
