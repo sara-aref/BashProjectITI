@@ -8,12 +8,13 @@ read -p "Enter the Database name: .. It shouldn't start with number and must not
 if [ ! -d database/"$nameDB" ]; then
 
     case $nameDB in
+         *['!''?'@\#\$%^\&*()-+\.\/';']*)
+         echo Incorrect DB name
+         ;;
          [a-zA-Z_]*)
          nameDB=$(echo "databaseso/$nameDB" | tr ' ' '_')
          mkdir $nameDB
-         echo DB is added successfully
          ;;
-         
          [0-9]*)
          echo Incorrect Input remove the number at the beginning
          ;;
