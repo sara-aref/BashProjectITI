@@ -6,35 +6,51 @@ read -p "Enter the Table name: .. It shouldn't start with number and must not in
 if [ ! -f "$nameTable" ]; then
 
     case $nameTable in
+         *['!''?'@\#\$%^\&*()-+\.\/';']*)
+         echo Incorrect DB name
+         ;;
+         
          [a-zA-Z_]*)
-         nameTable=$(echo "databaseso/$nameTable" | tr ' ' '_')
+         nameTable=$(echo "$nameTable" | tr ' ' '_')
          ## when added the touch command here, if the user ended the program the file will be empty
          
          
          count=0
+         index=1
          dataType= true
-         conf= x
          txt=""
          txtType=""
+         colType=0
          read -p "Enter the number of columns: " col
-         while [ $count -le $col ]; do
-               while [ $conf != "Y" -a $conf != "y" ]; do
-                     read -p "Please write Y or y to confirm that you are going to write next the primary key nameTable" conf
-               done
-               read -p "Enter the name of column number $count: " colName
-               read -p "Enter the Type of column 'int' or 'string': " colType
-               if [ $count == 0 ]; then
-               txt=$colName":"
-               txtType=$colType":"
+         while [ $count -lt $col ]; do
+               read -p "Enter the name of column number $index: " colName
+               
+               if [ $colName ]; then
+   
+                   read -p "Enter the Type of column 'int' or 'string': " colType
+                   if [ $colType ]; then
+                       if [[ $count == 0 ]]; then
+                       
+                          echo Table is in progress successfully
+                           txt=$colName":"
+                           txtType=$colType":"
+                       else
+                           txt=$txt$colName":"
+                           txtType=$txtType$colType":"
+                       fi  
+                  else
+                      echo Invalid value
+                      break
+                  fi
                else
-               txt=$txt$colName":"
-               txtType=$txtType$colType":"
-               fi  
+                    echo You didnt enter any value
+                    break
+               fi
                ((count++))
+               ((index++))
         done
         touch $nameTable
-        echo Table is added successfully
-        echo "$txtType"
+
         printf "$txt\n$txtType\n" > $nameTable  
          
          ;;
@@ -52,17 +68,5 @@ elif [[ $nameTable = "" ]]; then
 else
     echo Table doesnt exist
 fi
-
-
-
-          
-          
-          
-          
-          
-          
-          
-          
-          
-      
-      
+  
+   
