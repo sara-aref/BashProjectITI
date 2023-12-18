@@ -3,31 +3,31 @@
 shopt -s extglob 
 #turn on pattern and enable it
 
-function getNumOfField(){
-tableName=$1
-namecolumn=$2
-name=$(awk -F : -f <(echo 'NR=1{print $NF}') "$tableName")
-for ((z=0; z<${#name[@]}; z++)); do
-      if [[ "$namecolumn" == "${name[$z]}" ]]; then 
-            echo $((z+1))
-            break
-        fi
-done
-}
-
+check=1
+val=0
 echo The tables are: 
 ls -l
 
 read -p "Enter the Table name that you want to update: " nameTable
 
-if [ -f "$nameTable" ]; then
-    cat $nameTable
-    read -p "Enter the column name: " col
-    colCount=$(awk -F: '{if (NR==0) for(i=1;i<=NF;i++) {print $i}}' "$name")
-    rowCount=$(awk 'NR >= 3 { for (i = 3; i <= NF; i++) print $i }' "$name")
-    
-    echo getNumOfField $nameTable $col
-    read -p "Enter the value to update in the column: " oldValue
-    read -p "Enter the new value name: " newValue
-    awk -v lineNumber="$i" -v newValue="$newValue" -F: '{FS=":"} {if (NR==lineNumber) $fieldNumber = newValue} 1'
-   awk -v  field=<field_number> -v value=$newValuw '{ if ($field == value) $field = "new_value" }1' file.txt
+read -p "Enter the column name you want to update in: " colName
+
+
+
+col=$(awk 'BEGIN{FS=":"}{if(NR==1){for(i=1;i<=NF;i++){if($i=="'$colName'") print i}}}' $nameTable)
+
+ 
+
+
+            read -p "Enter the value in the column you want to update: " val
+            rowNum=$(awk -v col="$col" -v val="$val" -v nameTable="$nameTable" 'BEGIN{FS=":"}{if ($col==val && NR==3) print NR}' "$nameTable")
+            if [[ $col -eq 1 ]]; then
+               echo This is a primary key we cant update it
+            else
+               read -p "Enter the new value here: " val2
+               col2=$(awk 'BEGIN{FS=":"}{if(NR==1){for(i=1;i<=NF;i++){if($i=="'$val2'") print i}}}' "$nameTable")
+               oldrecord=$(awk 'BEGIN{FS=":"}{if(NR=='$rowNum'){for(i=1;i<=NF;i++){if(i=='$col') print $i}}}' "$nameTable")
+               sed -i ''$rowNum's/'$oldrecord'/'$val2'/g' $nameTable
+            fi
+
+        
