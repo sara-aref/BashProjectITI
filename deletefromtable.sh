@@ -20,16 +20,13 @@ else
 			"selection") #row
 				select cols in $array
 				do
-					col=false
 					for field in $array
                 			do
                    				if [ "$cols" == "$field" ]; then
-                   					col=true
                        			 		read -p "Enter value: " value
 							sed -i "/$value/d" "$name"
                         				break
                     				fi
-                    				((col_num++))
                 			done
 					if [ "$col" == false ]; then
 						echo "Error! choose number from the menu."
@@ -51,6 +48,9 @@ else
                     				((col_num++))
                 			done
 				done
+			;;
+			*)
+				echo "please choose from the menu"
 			;;
 	esac
 done
