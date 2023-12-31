@@ -6,6 +6,8 @@ read -p "Enter table name: " name
 
 if [ ! -f $name ]; then
 	echo "Error! there is no table with that name."
+elif [[ $name = "" ]]; then
+	echo "Enter the name of the table you want to delete."
 else
 
 	# Read the first column values into an array
@@ -32,7 +34,7 @@ else
 					if [[ -n "$datacon" && "$datacon" =~ ^[0-9]+$ ]]; then
 						# Check if the entered data for the first column is unique
 						if [[ ! " ${first_column_data[@]} " =~ " $datacon " ]]; then
-							echo -n "$datacon:" >> "$name"
+							value=$datacon":"
 						else
 							echo "Error! Data for the first column must be unique. Please try again."
 							encountered_non_integer=true
@@ -48,7 +50,7 @@ else
 			
 					# Allow null input for other columns
 					if [[ -z "$datacon" || "$datacon" =~ ^[0-9]+$ ]]; then
-						echo -n "$datacon:" >> "$name"
+						value=$value$datacon":"
 					else
 						echo "Error! Data for column $((i+1)) must be an integer. Please try again."
 						encountered_non_integer=true
@@ -63,7 +65,7 @@ else
 					if [[ -n "$datacon" && "$datacon" =~ ^[a-zA-Z0-9]+$ ]]; then
 						# Check if the entered data for the first column is unique
 						if [[ ! " ${first_column_data[@]} " =~ " $datacon " ]]; then
-							echo -n "$datacon:" >> "$name"
+							value=$datacon":"
 						else
 							echo "Error! Data for the first column must be unique. Please try again."
 							encountered_non_integer=true
@@ -78,7 +80,7 @@ else
 			
 					# Allow null input for other columns
 					if [[ -z "$datacon" || "$datacon" =~ ^[a-zA-Z0-9]+$ ]]; then
-						echo -n "$datacon:" >> "$name"
+						value=$value$datacon":"
 					else
 						echo "Error! Data for column $((i+1)) must be an alphanumeric string. Please try again."
 						encountered_non_integer=true
@@ -90,7 +92,7 @@ else
 
 		# Check if any non-integer data was encountered before adding a new line
 		if [[ "$encountered_non_integer" == false ]]; then
-			echo -e >> "$name"
+			echo $value >> "$name"
 		fi
 
 		continue=false

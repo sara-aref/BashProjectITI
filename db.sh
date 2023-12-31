@@ -13,7 +13,7 @@ select db in createdb listdb dropdb connectdb
 do      
         case $db in
         "createdb")
-        	source ../create.sh
+        	source ../createDB.sh
         ;;
         "listdb")
         	source ../listdb.sh
