@@ -5,7 +5,10 @@ shopt -s extglob #turn on pattern and enable it
 
 read -p "Enter the Database name: .. It shouldn't start with number and must not include any special character or space: " nameDB
 
-if [ ! -d "$nameDB" ]; then
+if [[ $nameDB = "" ]]; then
+   echo You didnt enter any value
+   
+elif [ ! -d "$nameDB" ]; then
 
     case $nameDB in
          *['!''?'@\#\$%^\&*()-+\.\/';']*)
@@ -24,9 +27,6 @@ if [ ! -d "$nameDB" ]; then
          echo Incorrect DB name
          ;;
          esac
-
-elif [[ $nameDB = "" ]]; then
-   echo You didnt enter any value
    
 else 
    echo Invalid Input Database already exists

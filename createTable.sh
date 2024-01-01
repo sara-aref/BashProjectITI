@@ -1,9 +1,10 @@
-#! /usr/bin/bash
-
 shopt -s extglob #turn on pattern and enable it
 
 read -p "Enter the Table name: .. It shouldn't start with number and must not include any special character or space: " nameTable
-if [ ! -f "$nameTable" ]; then
+
+if [[ $nameTable = "" ]]; then
+   echo You didnt enter any value
+elif [ ! -f "$nameTable" ]; then
 
     case $nameTable in
          *['!''?'@\#\$%^\&*()-+\.\/';']*)
@@ -17,19 +18,30 @@ if [ ! -f "$nameTable" ]; then
          
          count=0
          index=1
-         dataType= true
          txt=""
          txtType=""
          colType=0
          read -p "Enter the number of columns: " col
+         if [[ $col = "" ]]; then
+         echo You didnt enter any value
+         return
+         fi
          while [ $count -lt $col ]; do
                read -p "Enter the name of column number $index: " colName
-               
+               if [[ $colName == *['!''?'@\#\$%^\&*()-+\.\/';']* || $colName == [0-9]* ]]; then
+                    echo Invalid Input
+                    return
+               elif [[ [a-zA-Z_]* ]]; then
+         	    colName=$(echo "$colName" | tr ' ' '_')
+               fi
                if [ $colName ]; then
    
                    read -p "Enter the Type of column 'int' or 'string': " colType
-                   if [ $colType ]; then
-                       if [[ $count == 0 ]]; then
+                   if [ $colType = "" ]; then
+                       echo No value entered
+                       break
+                  elif [[ $colType = "string" || $colType = "int" ]]; then
+                  	if [[ $count == 0 ]]; then
                        
                           echo Table is in progress successfully
                            txt=$colName":"
@@ -38,21 +50,23 @@ if [ ! -f "$nameTable" ]; then
                            txt=$txt$colName":"
                            txtType=$txtType$colType":"
                        fi  
-                  else
-                      echo Invalid value
-                      break
+                    else
+                    	echo Unknown Data Type
+                    	break   
                   fi
                else
-                    echo You didnt enter any value
+                    echo No data entered
                     break
                fi
+               
                ((count++))
                ((index++))
         done
-        touch $nameTable
-
-        printf "$txt\n$txtType\n" > $nameTable  
-         
+        if [[ count -lt col ]]; then
+         	return
+         fi
+         touch $nameTable
+         printf "$txt\n$txtType\n" > $nameTable 
          ;;
          
          [0-9]*)
@@ -63,10 +77,7 @@ if [ ! -f "$nameTable" ]; then
          echo Incorrect Table name
          ;;
          esac
-elif [[ $nameTable = "" ]]; then
-   echo You didnt enter any value
+
 else
-    echo Table doesnt exist
+    echo Table Already Exists
 fi
-  
-   
