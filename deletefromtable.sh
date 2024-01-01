@@ -28,13 +28,13 @@ else
 					else
 
                        			 	read -p "Enter value: " value
-						data=$(awk -F: -v field="$field" -v value="$value" '{ if ($field == value ) {print $0} }' "$name")
+						data=$(awk -F: -v field="$field" -v value="$value" '{ if (NR > 2 && $field == value ) {print $0} }' "$name")
 						
 						if [ -z "$data" ]; then
                						echo "No data found with the specified value."
                						break
             					else
-                					awk -F: -v field="$field" -v value="$value" '{ if ($field != value ) {print $0} }' "$name" > temp
+                					awk -F: -v field="$field" -v value="$value" '{ if (NR > 2 && $field != value ) {print $0} }' "$name" > temp
 							mv temp "$name"
 							echo "Data is deleted."
 							break
