@@ -2,18 +2,18 @@
 
 shopt -s extglob #turn on pattern and enable it
 
-read -p "Enter the Database name you want to drop: " nameDB
+echo -e "\033[1;33mEnter the Database name you want to drop: \033[0m" && read -p "" nameDB
 
 
 if [ -d "$nameDB" ]; then
     rm -r "$nameDB"
-    echo "Directory deleted successfully."
+    echo -e "\033[1;32mDatabase deleted successfully.\033[0m"
     
 elif [[ $nameDB == "" ]]; then
-   echo You didnt enter any value
+    echo -e "\033[1;31mYou didn't enter any value\033[0m"
    
 else
-    echo "Directory does not exist."
+    echo -e "\033[1;31mDatabase does not exist.\033[0m"
     
 fi
 

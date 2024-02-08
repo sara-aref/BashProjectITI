@@ -1,14 +1,14 @@
 shopt -s extglob #turn on pattern and enable it
 
-read -p "Enter the Table name: .. It shouldn't start with number and must not include any special character or space: " nameTable
+echo -e "\033[1;33mEnter the Table name: .. It shouldn't start with number and must not include any special character or space: \033[0m" && read -p "" nameTable
 
 if [[ $nameTable = "" ]]; then
-   echo You didnt enter any value
+   echo -e "\033[1;31mYou didn't enter any value\033[0m"
 elif [ ! -f "$nameTable" ]; then
 
     case $nameTable in
          *['!''?'@\#\$%^\&*()-+\.\/';']*)
-         echo Incorrect DB name
+         echo -e "\033[1;31mIncorrect Table name\033[0m"
          ;;
          
          [a-zA-Z_]*)
@@ -21,29 +21,30 @@ elif [ ! -f "$nameTable" ]; then
          txt=""
          txtType=""
          colType=0
-         read -p "Enter the number of columns: " col
+         echo -e "\033[1;33mEnter the number of columns: \033[0m" && read -p "" col
          if [[ $col = "" ]]; then
-         echo You didnt enter any value
+         echo -e "\033[1;31mYou didn't enter any value\033[0m"
          return
          fi
          while [ $count -lt $col ]; do
-               read -p "Enter the name of column number $index: " colName
+               index=1
+	 echo -e "\033[1;33mEnter the name of column number $index: \033[0m" && read -p "" colName
                if [[ $colName == *['!''?'@\#\$%^\&*()-+\.\/';']* || $colName == [0-9]* ]]; then
-                    echo Invalid Input
+                    echo -e "\033[1;31mInvalid Input\033[0m"
                     return
                elif [[ [a-zA-Z_]* ]]; then
          	    colName=$(echo "$colName" | tr ' ' '_')
                fi
                if [ $colName ]; then
    
-                   read -p "Enter the Type of column 'int' or 'string': " colType
+                   echo -e "\033[1;33mEnter the Type of column 'int' or 'string': \033[0m" && read -p "" colType
                    if [ $colType = "" ]; then
-                       echo No value entered
+                       echo -e "\033[1;31mNo value entered\033[0m"
                        break
                   elif [[ $colType = "string" || $colType = "int" ]]; then
                   	if [[ $count == 0 ]]; then
                        
-                          echo Table is in progress successfully
+                          echo -e "\033[1;32mTable is in progress successfully\033[0m"
                            txt=$colName":"
                            txtType=$colType":"
                        else
@@ -51,11 +52,11 @@ elif [ ! -f "$nameTable" ]; then
                            txtType=$txtType$colType":"
                        fi  
                     else
-                    	echo Unknown Data Type
+                    	echo -e "\033[1;31mUnknown Data Type\033[0m"
                     	break   
                   fi
                else
-                    echo No data entered
+                    echo -e "\033[1;31mNo data entered\033[0m"
                     break
                fi
                
@@ -70,14 +71,14 @@ elif [ ! -f "$nameTable" ]; then
          ;;
          
          [0-9]*)
-         echo Incorrect Input remove the number at the beginning
+         echo -e "\033[1;31mIncorrect Input remove the number at the beginning\033[0m"
          ;;
          
          *)
-         echo Incorrect Table name
+         echo -e "\033[1;31mIncorrect Table name\033[0m"
          ;;
          esac
 
 else
-    echo Table Already Exists
+    echo -e "\033[1;31mInvalid Input Table already exists\033[0m"
 fi
